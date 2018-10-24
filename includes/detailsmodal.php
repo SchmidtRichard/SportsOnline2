@@ -1,35 +1,48 @@
 <?php
 
-  require_once 'system/init.php';
-
-if(isset($_POST['id'])){
-  $id = $_POST['id'];
-
-  //For security reasons we cast it to an integer to make sure it not any other data to be passed to our post
-  $id = (int)$id;
-  $sql = "SELECT * FROM products WHERE id = '$id'";
+  //  require_once 'system/init.php';
+  set_include_path('/system.init.php');
 
 
+  if(isset($_POST['id'])){
+    $id = $_POST['id'];
 
-  //Execute the query
-  $result = $db->query($sql);
+    //For security reasons we cast it to an integer to make sure it not any other data to be passed to our post
+    $id = (int)$id;
+    $sql = "SELECT * FROM products WHERE id = '$id'";
 
-  //PHP function that takes the result of our query and turn it into an associative array and set that to $product (associative array)
-  $product = mysqli_fetch_assoc($result);
 
-  $brand_id = $product['brand'];
-  $sql = "SELECT brand FROM brand WHERE id = '$brand_id'";
 
-  //Run the query
-  $brand_query = $db->query($sql);
-  $brand = mysqli_fetch_assoc($brand_query);
 
-  $sizestring = $product['sizes'];
+    $db = mysqli_connect('127.0.0.1','cms_www','7QMzcSgF2svJMcTk','sports_online');
 
-  //Separate the size and quantity - use php function explode that will take the string and make a new array from string and split everytime it sees a come it make a new array
-  $size_array = explode(',', $sizestring);
+    if(mysqli_connect_error()){
+      echo 'Database connection failed, check the error: ' . mysqli_connect_error();
+      die();
+    }
 
-}
+
+
+
+    //Execute the query
+    $result = $db->query($sql);
+
+    //PHP function that takes the result of our query and turn it into an associative array and set that to $product (associative array)
+    $product = mysqli_fetch_assoc($result);
+
+    $brand_id = $product['brand'];
+    $sql = "SELECT brand FROM brand WHERE id = '$brand_id'";
+
+    //Run the query
+    $brand_query = $db->query($sql);
+    $brand = mysqli_fetch_assoc($brand_query);
+
+    $sizestring = $product['sizes'];
+
+    //Separate the size and quantity - use php function explode that will take the string and make a new array from string and split everytime it sees a come it make a new array
+    $size_array = explode(',', $sizestring);
+
+  }
 
 ?>
 

@@ -11,4 +11,4 @@ if(mysqli_connect_error()){
 
 //Create a constante
 //Defines a constante (BASEURL) and setting it to SportsOnline
-define('BASEURL', '/sports_online/');
+define('BASEURL', '/SportsOnline/');

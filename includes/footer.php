@@ -18,13 +18,18 @@
       });
     });
 
+
     //JS function to send the JSON object DATA to our detailsmodal.php file and get information
     function detailsmodal(id){//Annomiour function
       var data = {"id" : id};//the data object equals a JSON string - get the ID that is set on the button on the index.php file
 
       //AJAX call below - the page does not need to be reloaded for the function below to run
       jQuery.ajax({
-        url : <?=BASEURL;?>+'SportsOnline/includes/detailsmodal.php',
+        
+        //url : <?=BASEURL;?>+'SportsOnline/includes/detailsmodal.php',
+
+        url : <?=BASEURL;?>+'../includes/detailsmodal.php',
+
         method : "post",
         data: data, //the data will be post to our page where our url goes to
 
@@ -38,8 +43,24 @@
           jQuery('#details-modal').modal('toggle');//
         },
 
-        error: function(){
-          alert("Something did not work as it was expected, try again later.");
+        error: function(x,e){
+
+          //alert("Something did not work as it was expected, try again later.");
+
+          if (x.status==0) {
+              alert('You are offline!!\n Please Check Your Network.');
+          } else if(x.status==404) {
+              alert('Requested URL not found.');
+          } else if(x.status==500) {
+              alert('Internel Server Error.');
+          } else if(e=='parsererror') {
+              alert('Error.\nParsing JSON Request failed.');
+          } else if(e=='timeout'){
+              alert('Request Time out.');
+          } else {
+              alert('Unknow Error.\n'+x.responseText);
+          }
+
         }
       });
     }
